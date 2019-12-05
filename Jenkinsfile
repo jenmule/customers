@@ -35,14 +35,19 @@ pipeline {
             steps {
                 echo "Hello - ${env.API_NAME}-${env.VERSION}"
             }
-        }*/
+        }
         stage('Unit Test') {
             steps {
                 sh 'mvn clean test'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target\\site\\munit\\coverage', reportFiles: 'summary.html', reportName: 'Code Coverage', reportTitles: ''])
             }
+        }*/
+        stage('Code Analysis') {
+            steps {
+                sh 'mvn sonar:sonar'
+            }
         }
-       stage('Deploy CloudHub - DEV[feature*]') {
+       /*stage('Deploy CloudHub - DEV[feature*]') {
                when {
                 allOf { branch 'feature*'; environment name: 'DEPLOY_TARGET', value: 'CH' }
                }
@@ -128,7 +133,7 @@ pipeline {
                     }
                 }
               }
-        }
+        }*/
         /*stage('Deploy ARM') {
             steps {
                 sh "mvn deploy -P arm -DANYPOINT_USERNAME=$ANYPOINT_USR -DANYPOINT_PASSWORD=$ANYPOINT_PSW -DARM_ENV=$DEPLOY_TO -DARM_TARGET=vm-mule -DARM_TARGET_TYPE=server"
