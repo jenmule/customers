@@ -103,6 +103,7 @@
             				<requiredFlowCoverage>50</requiredFlowCoverage>
                         <formats>
                             <format>html</format>
+			     <format>json</format>
                         </formats>
                     </coverage>
                 </configuration>
