@@ -40,7 +40,7 @@
 		<build.name>${BUILD_NAME}</build.name>
 	    
 	    	<sonar.language>mule4</sonar.language> <!-- Language to Scan -->
-		<sonar.sources>src/main/[app|mule]</sonar.sources> <!-- Directory from where scan Configuration Files -->
+		<sonar.sources>src/main/mule</sonar.sources> <!-- Directory from where scan Configuration Files -->
 	    
     </properties>
 
