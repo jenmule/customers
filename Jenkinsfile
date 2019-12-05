@@ -35,13 +35,13 @@ pipeline {
             steps {
                 echo "Hello - ${env.API_NAME}-${env.VERSION}"
             }
-        }
+        }*/
         stage('Unit Test') {
             steps {
                 sh 'mvn clean test'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target\\site\\munit\\coverage', reportFiles: 'summary.html', reportName: 'Code Coverage', reportTitles: ''])
             }
-        }*/
+        }
         stage('Code Analysis') {
             steps {
                 sh 'mvn sonar:sonar'
