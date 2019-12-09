@@ -61,6 +61,13 @@ pipeline {
                 )*/
             }
         }
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
         /*stage('Unit Test') {
             steps {
                 sh 'mvn clean test'
