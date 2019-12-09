@@ -36,22 +36,29 @@ pipeline {
                 echo "Hello - ${env.API_NAME}-${env.VERSION}"
             }
         }*/
-        stage('Artifactory') {
+        stage ('Artifactory configuration') {
             steps {
                 rtServer (
-                    id: 'Artifactory-1',
-                    url: 'http://localhost:8081/artifactory',
-                    // If you're using username and password:
-                    username: 'admin',
-                    password: 'password',
-                    // If you're using Credentials ID:
-                    //credentialsId: 'ccrreeddeennttiiaall'
-                    // If Jenkins is configured to use an http proxy, you can bypass the proxy when using this Artifactory server:
-                    bypassProxy: true,
-                    // Configure the connection timeout (in seconds).
-                    // The default value (if not configured) is 300 seconds:
-                    timeout = 300
-                )                
+                    id: "ARTIFACTORY_SERVER",
+                    url: "http://localhost:8081/artifactory",
+                    username: "user",
+                    password: "password"
+                    //credentialsId: CREDENTIALS
+                )
+
+                /*rtMavenDeployer (
+                    id: "MAVEN_DEPLOYER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release-local",
+                    snapshotRepo: "libs-snapshot-local"
+                )
+
+                rtMavenResolver (
+                    id: "MAVEN_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    releaseRepo: "libs-release",
+                    snapshotRepo: "libs-snapshot"
+                )*/
             }
         }
         /*stage('Unit Test') {
