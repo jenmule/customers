@@ -61,24 +61,34 @@ pipeline {
                 )*/
             }
         }
+        /*stage ('Upload') {
+            steps {
+                rtUpload (
+                    buildName: 'MK',
+                    buildNumber: '48',
+                    serverId: ARTIFACTORY_SERVER,
+                    specPath: 'jenkins-examples/pipeline-examples/resources/props-upload.json'
+                )
+            }
+        }
         stage ('Publish build info') {
             steps {
                 rtPublishBuildInfo (
                     serverId: "ARTIFACTORY_SERVER"
                 )
             }
-        }
-        /*stage('Unit Test') {
+        }*/
+        stage('Unit Test') {
             steps {
                 sh 'mvn clean test'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target\\site\\munit\\coverage', reportFiles: 'summary.html', reportName: 'Code Coverage', reportTitles: ''])
             }
         }
-        stage('Code Analysis') {
+        /*stage('Code Analysis') {
             steps {
                 sh 'mvn sonar:sonar'
             }
-        }
+        }*/
        stage('Deploy CloudHub - DEV[feature*]') {
                when {
                 allOf { branch 'feature*'; environment name: 'DEPLOY_TARGET', value: 'CH' }
@@ -91,10 +101,11 @@ pipeline {
                  BUILD_NAME = "${env.API_NAME}-${env.BRANCH_NAME}"
                }
                steps {
-                   sh "mvn clean package deploy -P cloudhub -DmuleDeploy -DANYPOINT_USERNAME=$ANYPOINT_USR -DANYPOINT_PASSWORD=$ANYPOINT_PSW -DCH_ENV=${env.DEPLOY_TO_CH_ENV} -DCH_RGN=${env.DEPLOY_TO_CH_REGION} -DCH_WORKERTYPE=${env.DEPLOY_TO_CH_WORKER_TYPE} -DCH_WORKERS=${env.DEPLOY_TO_CH_WORKERS} -DBUILD_NAME=${env.BUILD_NAME}"
+                   echo 'good'
+                   //sh "mvn clean package deploy -P cloudhub -DmuleDeploy -DANYPOINT_USERNAME=$ANYPOINT_USR -DANYPOINT_PASSWORD=$ANYPOINT_PSW -DCH_ENV=${env.DEPLOY_TO_CH_ENV} -DCH_RGN=${env.DEPLOY_TO_CH_REGION} -DCH_WORKERTYPE=${env.DEPLOY_TO_CH_WORKER_TYPE} -DCH_WORKERS=${env.DEPLOY_TO_CH_WORKERS} -DBUILD_NAME=${env.BUILD_NAME}"
                }
        }
-       stage('Deploy CloudHub - QA[develop]') {
+       /*stage('Deploy CloudHub - QA[develop]') {
                when {
                 allOf { branch 'develop'; environment name: 'DEPLOY_TARGET', value: 'CH' }
                }
