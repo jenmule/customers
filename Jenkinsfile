@@ -36,7 +36,25 @@ pipeline {
                 echo "Hello - ${env.API_NAME}-${env.VERSION}"
             }
         }*/
-        stage('Unit Test') {
+        stage('Artifactory') {
+            steps {
+                rtServer (
+                    id: 'Artifactory-1',
+                    url: 'http://localhost:8081/artifactory',
+                    // If you're using username and password:
+                    username: 'admin',
+                    password: 'password'
+                    // If you're using Credentials ID:
+                    //credentialsId: 'ccrreeddeennttiiaall'
+                    // If Jenkins is configured to use an http proxy, you can bypass the proxy when using this Artifactory server:
+                    bypassProxy: true
+                    // Configure the connection timeout (in seconds).
+                    // The default value (if not configured) is 300 seconds:
+                    timeout = 300
+                )                
+            }
+        }
+        /*stage('Unit Test') {
             steps {
                 sh 'mvn clean test'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target\\site\\munit\\coverage', reportFiles: 'summary.html', reportName: 'Code Coverage', reportTitles: ''])
@@ -47,7 +65,7 @@ pipeline {
                 sh 'mvn sonar:sonar'
             }
         }
-       /*stage('Deploy CloudHub - DEV[feature*]') {
+       stage('Deploy CloudHub - DEV[feature*]') {
                when {
                 allOf { branch 'feature*'; environment name: 'DEPLOY_TARGET', value: 'CH' }
                }
